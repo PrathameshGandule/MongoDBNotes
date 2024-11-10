@@ -124,7 +124,7 @@ db.grades.insertOne( {
 ### Inserting multiple documents
 - use `insertMany()`
 ```js
-db.grades.insertOne( {
+db.grades.insertMany( {
 	student_id: 123,
 	scores: [
 		{
@@ -267,6 +267,7 @@ db.sales.find( {
 - `$set` adds new value to document or replaces it if exists
 - `$push` appends value to an array or adds array field with specified value if absent
 - Example : -
+
 	```js
 	db.podcast.updateOne(
 		{ _id: ObjectId("8f6y2d9d3ge2ds5sff5wf5wf212") },
@@ -274,6 +275,7 @@ db.sales.find( {
 	)
 	```
 - `upsert` allows to insert document with provided values if one doesn't exists else updates as usual
+
 	```js
 	db.podcast.updateOne(
 		{ _id: ObjectId("8f6y2d9d3ge2ds5sff5wf5wf212") },
@@ -282,6 +284,7 @@ db.sales.find( {
 	)
 	```
 - `$push` example
+
 	```js
 	db.podcast.updateOne(
 		{ _id: ObjectId("6ku9f4s2safd3vsfnthn65d") },
@@ -388,14 +391,10 @@ db.inspection.find({ sector: "Restaurant - 818" }, { name: 1, result: 1, _id: 0 
 - Example :
 	```js
 	db.trips.countDocuments()
-	```
-	```js
 	>> 10000
 	```
 	```js
 	db.trips.countDocuments({ tripDuration: {$gt: 120}, usertype: "Subscriber" })
-	```
-	```js
 	>> 7847
 	```
 
@@ -424,9 +423,7 @@ db.inspection.find({ sector: "Restaurant - 818" }, { name: 1, result: 1, _id: 0 
 - `$match` stage is placed mostly early in pipeline (syntax similar to find)
 ```js
 db.zips.aggregate([
-	{
-		$match: { "state": "CA" }
-	}
+	{ $match: { "state": "CA" } }
 ])
 ```
 
@@ -454,13 +451,8 @@ $group: {
 - below code shows 3 zip codes with greatest population
 ```js
 db.zips.aggregate([
-{
-	$sort: {
-		pop: -1
-	}
-}, {
-	$limit: 3
-}
+	{ $sort: { pop: -1 } }, 
+	{ $limit: 3 }
 ])
 ```
 
@@ -491,10 +483,11 @@ db.zips.aggregate([
 - useful when want to change existing fields in pipeline or add new ones to be used in upcoming	pipeline stages
 ```js
 db.zips.aggregate([
-{
-	$set: {
-		pop_2022: { $round: { $multiply: [1.0031, "$pop"] } }
-	}
+{ $set: { 
+		pop_2022: { 
+			$round: { $multiply: [1.0031, "$pop"] } 
+		} 
+	} 
 }
 ])
 ```
@@ -508,9 +501,7 @@ db.zips.aggregate([
 - `$count: <field-name>`
 ```js
 db.zips.aggregate([
-{
-	$count: "total_zips"
-}
+	{ $count: "total_zips" }
 ])
 ```
 ```js
